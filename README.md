@@ -1,96 +1,160 @@
-# Wazuh SIEM Home Lab
+🛡️ Wazuh SIEM Homelab – Security Monitoring & Compliance
+Overview
+
+This project documents the deployment and validation of a self-hosted Wazuh SIEM in a homelab environment. The lab focuses on host-based intrusion detection, security event monitoring, compliance auditing, and MITRE ATT&CK–aligned alert analysis using real system activity.
+
+The goal is to demonstrate practical blue-team skills, including SIEM setup, agent management, alert triage, and security baseline validation.
+
+---
+
+Architecture
+
+# 🛡️ Wazuh SIEM Homelab – Security Monitoring & Compliance
 
 ## Overview
-This project documents the deployment and validation of a Wazuh-based Security Information and Event Management (SIEM) platform in a home lab environment. The goal was to gain hands-on experience with host-based intrusion detection, compliance monitoring, and security event analysis without relying on cloud-managed services.
 
-The lab demonstrates agent enrollment, real-time telemetry ingestion, CIS benchmark scanning, and MITRE ATT&CK-aligned detection.
+This project documents the deployment and validation of a **self-hosted Wazuh SIEM** in a homelab environment. The lab focuses on **host-based intrusion detection**, **security event monitoring**, **compliance auditing**, and **MITRE ATT&CK–aligned alert analysis** using real system activity.
+
+The goal is to demonstrate **practical blue-team skills**, including SIEM setup, agent management, alert triage, and security baseline validation.
 
 ---
 
 ## Architecture
 
-- **Wazuh Manager**
-  - Role: Centralized log analysis, rule processing, compliance evaluation
-  - OS: Ubuntu Server
-  - Services: Wazuh Manager, Indexer, Dashboard
+**Single-node Wazuh deployment** with an enrolled Linux agent:
 
-- **Wazuh Agent**
-  - Hostname: `homelab-01`
-  - OS: Ubuntu 24.04 LTS
-  - Function: Log collection, file integrity monitoring, system auditing
+- Wazuh Manager
+- Wazuh Indexer (OpenSearch)
+- Wazuh Dashboard
+- Wazuh Agent (Ubuntu host)
 
-- **Network**
-  - Local LAN deployment
-  - Agent-to-manager encrypted communication
-  - No external cloud dependencies
+All components are self-hosted on internal infrastructure with no managed cloud services.
 
 ---
 
-## Implemented Capabilities
+## Environment Details
 
-### Security Monitoring
-- Host-based intrusion detection
-- Log analysis and normalization
+| Component | Details |
+|---------|--------|
+| SIEM | Wazuh 4.14.1 |
+| Manager OS | Ubuntu Server |
+| Agent OS | Ubuntu 24.04 LTS |
+| Agent Name | `homelab-01` |
+| Network | Private LAN |
+| Access | HTTPS (Dashboard) |
+
+---
+
+## Features Implemented
+
+### 🔍 Security Event Monitoring
+- PAM authentication events
+- Privilege escalation detection (`sudo`)
+- System login/session tracking
+- Rootcheck (host-based anomaly detection)
+
+### 📊 Compliance & Hardening
+- CIS Ubuntu Linux 24.04 Benchmark
+- Security Configuration Assessment (SCA)
+- PCI DSS control mapping
+- Continuous baseline validation
+
+### 🧠 Threat Detection Frameworks
 - MITRE ATT&CK technique mapping
-
-### File Integrity Monitoring (FIM)
-- Monitoring of sensitive system files
-- Detection of unauthorized changes
-- Alert generation for privilege escalation indicators
-
-### Compliance & Hardening
-- CIS Ubuntu Linux 24.04 LTS Benchmark v1.0.0
-- Automated Security Configuration Assessment (SCA)
-- Baseline scoring and remediation tracking
-
-### Agent Management
-- Secure agent enrollment
-- Heartbeat monitoring
-- Version compatibility enforcement
+- Rule-based alert severity levels
+- Alert grouping and correlation
 
 ---
 
-## Validation Results
+## Alert Validation Results
 
-### Agent Status
-- Agent successfully enrolled and active
-- Continuous keepalive communication verified
-- Dashboard telemetry visible in real time
+### Summary (24-hour window)
 
-### CIS Benchmark Results
-- Passed: 120
-- Failed: 142
-- Not applicable: 17
-- Initial compliance score: 45%
+- **Total alerts:** 336
+- **High severity alerts (≥12):** 0
+- **Authentication failures:** 0
+- **Authentication successes:** 9
+- **Rootcheck detections:** Present
+- **Compliance scans:** Successful
 
-This baseline reflects a default Ubuntu installation prior to hardening.
-
----
-
-## Lessons Learned
-
-- Agent enrollment is controlled exclusively by the Wazuh Manager
-- Version mismatches between agent and manager prevent registration
-- Duplicate agent names are rejected as a security control
-- CIS benchmarks provide immediate insight into system hardening gaps
-- Local SIEM deployments mirror enterprise SOC tooling patterns
+This confirms:
+- Stable system behavior
+- No brute-force or intrusion attempts
+- Proper logging and detection coverage
 
 ---
 
-## Future Enhancements
+## Sample Alerts Observed
 
-- Implement CIS remediation and track score improvement
-- Generate custom detection rules
-- Add additional monitored endpoints
-- Integrate alert response workflows
-- Export dashboards for reporting
+### PAM Authentication Events
+- Login session opened / closed
+- Successful privilege escalation to root
+
+**MITRE ATT&CK:**
+- T1078 – Valid Accounts
+- Privilege Escalation
+- Initial Access
+
+### Rootcheck (Host-Based Anomaly Detection)
+- Baseline integrity scans
+- System anomaly indicators
+- No confirmed malicious persistence
+
+### SELinux / Audit Events
+- Policy and permission checks detected
+- Audit framework successfully parsed
+
+---
+
+## SOC-Style Alert Analysis
+
+Each alert was reviewed using a basic SOC triage approach:
+
+1. Identify alert type and severity
+2. Check authentication context
+3. Correlate with other alerts
+4. Determine benign vs suspicious behavior
+5. Document findings
+
+All observed alerts were determined to be **expected administrative or baseline activity**, demonstrating correct SIEM tuning and deployment.
+
+---
+
+## Key Takeaways
+
+- Successfully deployed a production-style SIEM
+- Validated agent enrollment and telemetry flow
+- Demonstrated real security event ingestion
+- Performed compliance and hardening assessments
+- Practiced alert analysis using industry frameworks
+
+This project reflects **entry-level SOC analyst / security engineer** responsibilities rather than a simulated lab.
+
+---
+
+## Next Enhancements
+
+Planned improvements:
+- Simulated attack scenarios (brute force, persistence)
+- Custom Wazuh rules
+- Multiple agents and OS diversity
+- Centralized log ingestion (syslog)
+- Firewall and network telemetry integration
 
 ---
 
 ## Skills Demonstrated
 
-- SIEM deployment and configuration
-- Linux system security monitoring
-- Compliance assessment (CIS benchmarks)
-- Security event analysis
-- Troubleshooting distributed security systems
+- SIEM deployment & management
+- Linux system hardening
+- Security monitoring & alert triage
+- Compliance auditing (CIS, PCI DSS)
+- MITRE ATT&CK mapping
+- Blue-team operational workflows
+
+---
+
+## Disclaimer
+
+This project is for **educational and defensive security purposes only**.
+No production systems were exposed or attacked.
