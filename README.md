@@ -143,7 +143,7 @@ Controlled attack simulations were performed to validate detection coverage and 
 **Command Executed:**
 ```
 sudo sh -c 'echo "wazuh-fim-test" >> /etc/passwd'
-
+```
 ---
 
 ### ✅ Expected Detection (Simulation 1)
