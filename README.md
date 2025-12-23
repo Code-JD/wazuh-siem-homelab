@@ -147,7 +147,7 @@ sudo sh -c 'echo "wazuh-fim-test" >> /etc/passwd'
 ---
 
 ### ✅ Expected Detection (Simulation 1)
-```markdown
+
 **Expected Detection:**
 - File Integrity Monitoring (FIM) alert
 - Medium to high severity rule
